@@ -12,6 +12,6 @@
 *.la
 *.a
 
-./*Data
-./*Feature
-./*Run
+*Data/
+*Feature/
+*Run/
