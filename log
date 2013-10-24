@@ -1,0 +1,2 @@
+g++ Code/cxz/rawDataParser.cpp -o Executable/rawDataParser -O2
+Executable/rawDataParser RawData/Train.csv FullData/Full.dict 1 1 FullData/Train
