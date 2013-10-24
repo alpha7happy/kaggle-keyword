@@ -30,26 +30,37 @@ inline string toLabel(string label){
 	else label[i]=label[i]-'a'+'A';
 	return label+" ";
 }
-char* parseDoc(char* s){
+//set<string> pdtags;
+
+char* parseDoc(char* s, bool istag=false){
 	if (!pdinit){
 		puts("parseDoc not initialized");
 		return s;
 	}
 	int len=strlen(s);
+
+	/*if (istag){
+		for (char*p=strtok(s," ");p;p=strtok(NULL," ")){
+			int tl=strlen(p);
+			for (int i=0;i<tl;i++)
+				if (!isalpha(p[i])&&!isdigit(p[i])&&p[i]!='-'&&p[i]!='.'&&p[i]!='+'&&p[i]!='#')
+					if (pdtags.find(p)==pdtags.end()){
+						cout<<p<<endl;
+						pdtags.insert(p);
+					}
+		}
+		return s;
+	}*/
 	for (int i=0;i<len;i++)
 		if (s[i]>='A'&&s[i]<='Z') s[i]=s[i]-'A'+'a';
 	for (int i=0;i<len;i++){
 		if (isalpha(s[i])) s[i]=s[i];
-		else if (s[i]=='.'){
-			if (i==0||!isdigit(s[i-1])||!isdigit(s[i+1]))
-				s[i]=' ';
-		}
 		else if (s[i]=='/'){
 			if (i==0||s[i-1]!='<')
 				s[i]=' ';
 		}
 		else if ((s[i]>='0'&&s[i]<='9')
-				||(s[i]=='-')
+				||(s[i]=='-'||s[i]=='.'||s[i]=='+'||s[i]=='#')
 				) s[i]=s[i];
 		else if (s[i]=='<'){
 			s[i]=' ';
@@ -72,7 +83,7 @@ char* parseDoc(char* s){
 			}
 		}
 		else {
-			//if (s[i]=='<'){for (int z=i-20;z<i+20;z++) printf("%c",s[z]);puts("");}
+			//if (s[i]=='+'){for (int z=i-20;z<i+20;z++) printf("%c",s[z]);puts("");}
 			if (pdignore.find(s[i])==pdignore.end()){
 				//if (s[i]>0) printf("Ignore |%c| (%d)\n",s[i],(int)s[i]);
 				pdignore.insert(s[i]);

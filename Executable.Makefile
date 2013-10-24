@@ -10,4 +10,5 @@ $(CodeDir)/cxz/rawDataParser.cpp: $(CodeDir)/cxz/parseDoc.h
 Executable.all:
 
 Executable.clean:
-	rm $(ExecutableDir)/*
+	rm -f $(ExecutableDir)/cxz/*
+	

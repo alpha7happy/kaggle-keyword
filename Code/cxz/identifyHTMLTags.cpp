@@ -39,7 +39,7 @@ int main(int argc,char** argv){
 					if (tags.find(q+2)!=tags.end()
 						&&tags.find(q+1)==tags.end()){
 						fprintf(fout,"%s\n",q+2);
-						printf("%s\n",q+2);
+						//printf("%s\n",q+2);
 						tags.insert(q+1);
 					}
 				}

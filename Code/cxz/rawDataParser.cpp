@@ -106,7 +106,7 @@ int parseInstance(char *s){
 	char* entags=strstr(sttags,"\"");
 	int tid=getfid();
 	entags[0]=0;
-	fprintf(ftags[tid],"%s\n",parseDoc(sttags));
+	fprintf(ftags[tid],"%s\n",parseDoc(sttags,true));
 	enbody[0]=0;
 	fprintf(fbody[tid],"%s\n",parseDoc(stbody));
 	entitle[0]=0;
@@ -140,12 +140,12 @@ void parse(){
 		}
 		cline++;
 		if (cline%10000==0){
-			fprintf(stderr,"\rParsing: #Line = %lfM, #Document = %d",cline/1000000.,cdoc);
+			fprintf(stderr,"\rParsing: #Line = %.2fM, #Document = %d",cline/1000000.,cdoc);
 			fflush(stderr);
 		}
 	}
 	cdoc+=parseInstance(s);
-	fprintf(stderr,"\rParsing Finished: #Line = %lfM, #Document = %d\n",cline/1000000.,cdoc);
+	fprintf(stderr,"\rParsing Finished: #Line = %.2fM, #Document = %d\n",cline/1000000.,cdoc);
 	fflush(stderr);
 }
 
