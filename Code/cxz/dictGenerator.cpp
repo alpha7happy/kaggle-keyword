@@ -21,14 +21,14 @@ using namespace std;
 map<string,int> dict;
 
 void loadFile(char *filename){
+	bool istag=(strstr(filename,".Tags")!=0);
 	FILE* fin=fopen(filename,"r");
 	char s[100000];
 	int cnt=0;
 	for (;fscanf(fin,"%s",s)==1;){
-		/*if (dict[s]==0&&rand()%10==0&&dict.size()>1000000){
-			cout<<s<<endl;
-		}*/
 		if (strlen(s)>20) continue;
+		if (istag&&dict.find(s)==dict.end())
+			printf("Only In Tags: %s\n",s);
 		dict[s]++;
 		cnt++;
 		if (cnt%10000==0) fprintf(stderr,"\rLoading %s, #Word = %.2f, #Dict = %d",filename,cnt/1000000.,(int)dict.size());

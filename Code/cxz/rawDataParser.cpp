@@ -14,16 +14,17 @@
 #include <cctype>
 using namespace std;
 
-#include "parseDoc.h"
-
 #define lowbit(x) ((x)&(-(x)))
 #define sqr(x) ((x)*(x))
 #define PB push_back
 #define MP make_pair
 
+#include "parseDoc.h"
+
 vector<pair<double,string> > split;
 string InputFileName;
 string HTMLTagsFileName;
+string TagsFileName;
 int N;
 FILE* fin;
 FILE** fid,**ftitle,**fbody,**ftags;
@@ -33,14 +34,15 @@ bool loadConfig(int argc,char** argv){
 	if (argc<4) return false;
 	InputFileName=argv[1];
 	HTMLTagsFileName=argv[2];
-	parseDocInit(HTMLTagsFileName);
-	N=atoi(argv[3]);
+	TagsFileName=argv[3];
+	parseDocInit(HTMLTagsFileName,TagsFileName);
+	N=atoi(argv[4]);
 	split.clear();
-	if (argc!=4+2*N) return false;
+	if (argc!=5+2*N) return false;
 	for (int i=0;i<N;i++){
 		double r;
-		sscanf(argv[4+i*2],"%lf",&r);
-		split.PB(MP(r,argv[4+i*2+1]));
+		sscanf(argv[5+i*2],"%lf",&r);
+		split.PB(MP(r,argv[5+i*2+1]));
 	}
 	return true;
 }
@@ -106,11 +108,11 @@ int parseInstance(char *s){
 	char* entags=strstr(sttags,"\"");
 	int tid=getfid();
 	entags[0]=0;
-	fprintf(ftags[tid],"%s\n",parseDoc(sttags,true));
+	fprintf(ftags[tid],"%s\n",parseDoc(sttags,true).c_str());
 	enbody[0]=0;
-	fprintf(fbody[tid],"%s\n",parseDoc(stbody));
+	fprintf(fbody[tid],"%s\n",parseDoc(stbody).c_str());
 	entitle[0]=0;
-	fprintf(ftitle[tid], "%s\n",parseDoc(sttitle));
+	fprintf(ftitle[tid], "%s\n",parseDoc(sttitle).c_str());
 	fprintf(fid[tid],"%d\n",id);
 	return 1;
 }
