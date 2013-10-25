@@ -15,14 +15,18 @@ $(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
 	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
 	1 1 $(FullDataDir)/Test
 
-$(FullDataDir)/Full.dict:\
+$(FullDataDir)/Dictionary:\
 $(FullDataDir)/Train.Title $(FullDataDir)/Train.Body $(FullDataDir)/Train.Tags\
 $(ExecutableDir)/cxz/dictGenerator
 	$(ExecutableDir)/cxz/dictGenerator $@ $(FullDataDir)/Train.Title $(FullDataDir)/Train.Body $(FullDataDir)/Train.Tags
 
-$(FullDataDir)/Full.dict.refined:\
-$(FullDataDir)/Full.dict $(ExecutableDir)/cxz/dictRefine
-	$(ExecutableDir)/cxz/dictRefine $(FullDataDir)/Full.dict $@ 1000000
+$(FullDataDir)/Dictionary.refined:\
+$(FullDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
+	$(ExecutableDir)/cxz/dictRefine $(FullDataDir)/Dictionary $@ 1000000
+
+$(FullDataDir)/%.BOW:\
+$(ExecutableDir)/cxz/bowGenerator $(FullDataDir)/Dictionary.refined $(FullDataDir)/%
+	$^ $@
 
 #ValData
 $(ValDataDir)/Train.Id $(ValDataDir)/Train.Title\
@@ -35,14 +39,18 @@ $(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
 	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
 	2 0.7 $(ValDataDir)/Train 0.3 $(ValDataDir)/Test
 
-$(ValDataDir)/Val.dict:\
+$(ValDataDir)/Dictionary:\
 $(ValDataDir)/Train.Title $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags\
 $(ExecutableDir)/cxz/dictGenerator
 	$(ExecutableDir)/cxz/dictGenerator $@ $(ValDataDir)/Train.Title $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags
 
-$(ValDataDir)/Val.dict.refined:\
-$(ValDataDir)/Val.dict $(ExecutableDir)/cxz/dictRefine
-	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Val.dict $@ 1000000
+$(ValDataDir)/Dictionary.refined:\
+$(ValDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
+	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary $@ 1000000
+
+$(ValDataDir)/%.BOW:\
+$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
+	$^ $@
 
 #GlobalData
 $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv
@@ -55,16 +63,24 @@ $(FullDataDir)/Train.Id $(FullDataDir)/Train.Title\
 $(FullDataDir)/Train.Body $(FullDataDir)/Train.Tags\
 $(FullDataDir)/Test.Id $(FullDataDir)/Test.Title\
 $(FullDataDir)/Test.Body $(FullDataDir)/Test.Tags\
-$(FullDataDir)/Full.dict\
-$(FullDataDir)/Full.dict.refined\
+$(FullDataDir)/Train.Id.BOW $(FullDataDir)/Train.Title.BOW\
+$(FullDataDir)/Train.Body.BOW $(FullDataDir)/Train.Tags.BOW\
+$(FullDataDir)/Test.Id.BOW $(FullDataDir)/Test.Title.BOW\
+$(FullDataDir)/Test.Body.BOW $(FullDataDir)/Test.Tags.BOW\
+$(FullDataDir)/Dictionary\
+$(FullDataDir)/Dictionary.refined\
 
 ValData.all:\
 $(ValDataDir)/Train.Id $(ValDataDir)/Train.Title\
 $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags\
 $(ValDataDir)/Test.Id $(ValDataDir)/Test.Title\
 $(ValDataDir)/Test.Body $(ValDataDir)/Test.Tags\
-$(ValDataDir)/Val.dict\
-$(ValDataDir)/Val.dict.refined\
+$(ValDataDir)/Train.Id.BOW $(ValDataDir)/Train.Title.BOW\
+$(ValDataDir)/Train.Body.BOW $(ValDataDir)/Train.Tags.BOW\
+$(ValDataDir)/Test.Id.BOW $(ValDataDir)/Test.Title.BOW\
+$(ValDataDir)/Test.Body.BOW $(ValDataDir)/Test.Tags.BOW\
+$(ValDataDir)/Dictionary\
+$(ValDataDir)/Dictionary.refined\
 
 GlobalData.all:\
 $(GlobalDataDir)/HTMLTags\
