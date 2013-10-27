@@ -87,7 +87,7 @@ int getfid(){
 		x-=split[i].first;
 		if (x<=0) return i;
 	}
-	return 0;
+	return -1;
 }
 
 int parseInstance(char *s){
@@ -107,6 +107,7 @@ int parseInstance(char *s){
 	char* sttags=enbody+3;
 	char* entags=strstr(sttags,"\"");
 	int tid=getfid();
+	if (tid<0) return -1;
 	entags[0]=0;
 	fprintf(ftags[tid],"%s\n",parseDoc(sttags,true).c_str());
 	enbody[0]=0;
