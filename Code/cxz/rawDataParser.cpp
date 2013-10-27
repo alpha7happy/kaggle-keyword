@@ -107,7 +107,7 @@ int parseInstance(char *s){
 	char* sttags=enbody+3;
 	char* entags=strstr(sttags,"\"");
 	int tid=getfid();
-	if (tid<0) return -1;
+	if (tid<0) return 1;
 	entags[0]=0;
 	fprintf(ftags[tid],"%s\n",parseDoc(sttags,true).c_str());
 	enbody[0]=0;
