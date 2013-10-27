@@ -22,7 +22,7 @@ $(ExecutableDir)/cxz/dictGenerator
 
 $(FullDataDir)/Dictionary.refined:\
 $(FullDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
-	$(ExecutableDir)/cxz/dictRefine $(FullDataDir)/Dictionary $@ 1000000
+	$(ExecutableDir)/cxz/dictRefine $(FullDataDir)/Dictionary $@ $(DictionarySize)
 
 #ValData
 $(ValDataDir)/Train.Id $(ValDataDir)/Train.Title\
@@ -33,7 +33,7 @@ $(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv\
 $(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
 	$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv \
 	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
-	2 0.07 $(ValDataDir)/Train 0.03 $(ValDataDir)/Test
+	2 $(ValTrainRatio) $(ValDataDir)/Train $(ValTestRatio) $(ValDataDir)/Test
 
 $(ValDataDir)/Dictionary:\
 $(ValDataDir)/Train.Title $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags\
@@ -42,7 +42,7 @@ $(ExecutableDir)/cxz/dictGenerator
 
 $(ValDataDir)/Dictionary.refined:\
 $(ValDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
-	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary $@ 1000000
+	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary $@ $(DictionarySize)
 
 $(ValDataDir)/%.BOW:\
 $(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
@@ -54,7 +54,7 @@ $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/T
 $(GlobalDataDir)/Tags.dict: $(ExecutableDir)/cxz/tagDictExtractor $(RawDataDir)/Train.csv
 	$(ExecutableDir)/cxz/tagDictExtractor $(RawDataDir)/Train.csv $@
 
-FullData.all:\
+FullData.all: GlobalData.all\
 $(FullDataDir)/Train.Id $(FullDataDir)/Train.Title\
 $(FullDataDir)/Train.Body $(FullDataDir)/Train.Tags\
 $(FullDataDir)/Test.Id $(FullDataDir)/Test.Title\
@@ -62,7 +62,7 @@ $(FullDataDir)/Test.Body $(FullDataDir)/Test.Tags\
 $(FullDataDir)/Dictionary\
 $(FullDataDir)/Dictionary.refined\
 
-ValData.all:\
+ValData.all: GlobalData.all\
 $(ValDataDir)/Train.Id $(ValDataDir)/Train.Title\
 $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags\
 $(ValDataDir)/Test.Id $(ValDataDir)/Test.Title\
@@ -72,6 +72,7 @@ $(ValDataDir)/Dictionary.refined\
 
 GlobalData.all:\
 $(GlobalDataDir)/HTMLTags\
+$(GlobalDataDir)/Tags.dict
 
 FullData.clean:
 	rm -f $(FullDataDir)/*

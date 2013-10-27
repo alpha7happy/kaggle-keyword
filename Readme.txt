@@ -14,6 +14,7 @@ Folders & Files:
         Dictionary.refined
     FullFeature/
         (Train|Test).(Id|Title|Body|Tags).BOW
+        (Train|Test).candTags
     FullRun/
     ValData/
         (Train|Test).(Id|Title|Body|Tags)
@@ -21,6 +22,7 @@ Folders & Files:
         Dictionary.refined
     ValFeature/
         (Train|Test).(Id|Title|Body|Tags).BOW
+        (Train|Test).candTags
     ValRun/
     GlobalData/
 
