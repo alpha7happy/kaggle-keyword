@@ -3,7 +3,7 @@ $(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)
 	$^ $@
 
 $(ValFeatureDir)/%.Reduced:\
-$(ValDataDir)/%.BOW $(ValDataDir)/Dictionary.refined
+$(ValFeatureDir)/%.BOW $(ValDataDir)/Dictionary.refined
 	python $(CodeDir)/zyb/random_projection.py $^ $@ $(RandomProjectionLossRatio)
 
 $(ValFeatureDir)/%.candTags:\
