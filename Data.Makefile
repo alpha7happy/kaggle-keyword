@@ -48,6 +48,10 @@ $(ValDataDir)/%.BOW:\
 $(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
 	$^ $@
 
+$(ValDataDir)/%.Reduced:\
+$(ValDataDir)/%.BOW $(ValDataDir)/Dictionary.refined
+	python $(CodeDir)/zyb/random_projection.py $^ $@ $(RandomProjectionLossRatio)
+
 #GlobalData
 $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv
 	$(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv $(GlobalDataDir)/HTMLTags
