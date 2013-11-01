@@ -44,10 +44,6 @@ $(ValDataDir)/Dictionary.refined:\
 $(ValDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
 	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary $@ $(DictionarySize)
 
-$(ValDataDir)/%.BOW:\
-$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
-	$^ $@
-
 #GlobalData
 $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv
 	$(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv $(GlobalDataDir)/HTMLTags

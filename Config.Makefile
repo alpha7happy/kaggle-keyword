@@ -18,6 +18,8 @@ DictionarySize=10000
 ValTrainRatio=0.07
 ValTestRatio=0.03
 
+RandomProjectionLossRatio=0.1
+
 candTagSize=100
 
 Config.all:
