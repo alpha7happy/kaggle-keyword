@@ -2,9 +2,13 @@ $(ValFeatureDir)/%.BOW:\
 $(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
 	$^ $@
 
+$(ValFeatureDir)/Projector.dat:\
+$(ValFeatureDir)/Train.Title.BOW $(ValDataDir)/Dictionary.refined
+	python $(CodeDir)/zyb/random_projection.py fit $^ $@ $(RandomProjectionLossRatio)
+
 $(ValFeatureDir)/%.Reduced:\
-$(ValFeatureDir)/%.BOW $(ValDataDir)/Dictionary.refined
-	python $(CodeDir)/zyb/random_projection.py $^ $@ $(RandomProjectionLossRatio)
+$(ValFeatureDir)/%.BOW $(ValDataDir)/Dictionary.refined $(ValFeatureDir)/Projector.dat
+	python $(CodeDir)/zyb/random_projection.py transform $^ $@
 
 $(ValFeatureDir)/%.candTags:\
 $(ExecutableDir)/cxz/candTagGenerator_Random $(GlobalDataDir)/Tags.dict \

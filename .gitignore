@@ -15,4 +15,7 @@
 *Data/
 *Feature/
 *Run/
+*.idea/
 Executable/
+
+*.pyc
