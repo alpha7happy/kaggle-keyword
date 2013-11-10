@@ -1,8 +1,10 @@
-ValRun.naiveTM:\
-$(ExecutableDir)/cxz/naiveTM \
-$(ValDataDir)/Test.Id $(ValDataDir)/Test.Title $(ValDataDir)/Test.Body $(ValFeatureDir)/Test.candTags \
-$(ValFeatureDir)/P.tiwj $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.wi
-	$^ ValRun.naiveTM.predict
+$(ValRunDir)/NB.predict:\
+$(ExecutableDir)/cxz/NB \
+$(ValFeatureDir)/P.ti $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.tiwj \
+$(ValFeatureDir)/Test.Title.BOW $(ValFeatureDir)/Test.Body.BOW $(ValFeatureDir)/Test.candTags
+	$^ $@
+
+$(ValRunDir)/NB.predict.text:
 
 ValRun.all: ValData.all ValFeature.all
 
