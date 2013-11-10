@@ -14,5 +14,6 @@ clean: Config.clean Data.clean Feature.clean Executable.clean Run.clean
 
 install:
 	sudo python deps/get-pip.py
+	sudo pip install -U numpy
 	sudo pip install -U scipy
 	sudo pip install -U scikit-learn
