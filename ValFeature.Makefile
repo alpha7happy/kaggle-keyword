@@ -46,6 +46,13 @@ $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.tiwj\
 $(ValFeatureDir)/Train.Title.Reduced $(ValFeatureDir)/Train.Body.Reduced\
 $(ValFeatureDir)/Test.Title.Reduced $(ValFeatureDir)/Test.Body.Reduced\
 
+ValFeature.no_reduced:\
+$(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Body.BOW\
+$(ValFeatureDir)/Test.Title.BOW $(ValFeatureDir)/Test.Body.BOW\
+$(ValFeatureDir)/Train.Tags.BOW $(ValFeatureDir)/Test.Tags.BOW\
+$(ValFeatureDir)/Test.candTags $(ValFeatureDir)/Train.candTags\
+$(ValFeatureDir)/P.wi $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.tiwj\
+
 ValFeature.reduced:\
 $(ValFeatureDir)/Train.Title.Reduced $(ValFeatureDir)/Train.Body.Reduced\
 $(ValFeatureDir)/Test.Title.Reduced $(ValFeatureDir)/Test.Body.Reduced\
