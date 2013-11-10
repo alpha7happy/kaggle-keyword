@@ -66,8 +66,11 @@ int main(int argc,char **argv){
 	fbody=fopen(argv[4],"r");
 	ftags=fopen(argv[5],"r");
 	tiwj=new int*[(int)tags.size()];
-	for (int i=0;i<(int)tags.size();i++)
+	for (int i=0;i<(int)tags.size();i++){
 		tiwj[i]=new int[(int)words.size()];
+		for (int j=0;j<(int)words.size();j++)
+			tiwj[i][j]=1;
+	}
 
 	int cnt=0;
 	for (;fgets(s,1000000,ftags);){
@@ -83,6 +86,7 @@ int main(int argc,char **argv){
 			for (int j=0;j<tag.size();j++)
 				tiwj[tag[j].first][body[i].first]++;
 	}
+
 	printf("\rCalculating Finished, #doc= %.2fM\n",cnt/1000000.);
 	fclose(ftitle);
 	fclose(fbody);
@@ -91,8 +95,12 @@ int main(int argc,char **argv){
 	for (int i=0;i<tags.size();i++){
 		printf("\rSaving Row %d",i);
 		fflush(stdout);
+		int s=0;
+		for (int j=0;j<words.size();j++)
+			s+=tiwj[i][j];
+		double ls=log(s);
 		for (int j=0;j<words.size();j++){
-			double t=log(tiwj[i][j]);
+			double t=log(tiwj[i][j])-ls;
 			fout.write((char *) &t, sizeof(t));
 		}
 	}

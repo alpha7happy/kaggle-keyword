@@ -29,11 +29,13 @@ void loadDict(char* filename){
 	char s[10000];
 	int cnt;
 	for (;fscanf(fin,"%s%d",s,&cnt)==2;){
+		cnt++;
 		dict.PB(MP(cnt,s));
 		sum+=cnt;
 	}
 	fclose(fin);
 }
+
 int main(int argc,char **argv){
 	if (argc!=3){
 		puts("Argument Error");
