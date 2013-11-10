@@ -4,7 +4,7 @@ from scipy.sparse import csr_matrix
 import sys
 import numpy as np
 import utils
-import pickle
+
 
 def _get_projection(n_samples, n_features, density='auto', eps=0.1):
     p = SparseRandomProjection(density=density, eps=eps)

@@ -14,6 +14,7 @@ ValFeatureDir=ValFeature
 ValRunDir=ValRun
 
 DictionarySize=1000000
+TagDictionarySize=15000
 
 ValTrainRatio=0.07
 ValTestRatio=0.03

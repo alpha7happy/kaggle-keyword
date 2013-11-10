@@ -1,5 +1,13 @@
-$(ValFeatureDir)/%.BOW:\
-$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
+$(ValFeatureDir)/%.Title.BOW:\
+$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%.Title
+	$^ $@
+
+$(ValFeatureDir)/%.Body.BOW:\
+$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%.Body
+	$^ $@
+
+$(ValFeatureDir)/%.Tags.BOW:\
+$(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.Tags.refined $(ValDataDir)/%.Tags
 	$^ $@
 
 $(ValFeatureDir)/Projector.dat:\
@@ -16,10 +24,9 @@ $(ValDataDir)/%.Title $(ValDataDir)/%.Body $(ValDataDir)/%.Tags
 	$^ $@ $(candTagSize)
 
 ValFeature.all:\
-$(ValFeatureDir)/Train.Id.BOW $(ValFeatureDir)/Train.Title.BOW\
-$(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.BOW\
-$(ValFeatureDir)/Test.Id.BOW $(ValFeatureDir)/Test.Title.BOW\
-$(ValFeatureDir)/Test.Body.BOW $(ValFeatureDir)/Test.Tags.BOW\
+$(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Body.BOW\
+$(ValFeatureDir)/Test.Title.BOW $(ValFeatureDir)/Test.Body.BOW\
+$(ValFeatureDir)/Train.Tags.BOW $(ValFeatureDir)/Test.Tags.BOW\
 $(ValFeatureDir)/Test.candTags $(ValFeatureDir)/Train.candTags\
 $(ValFeatureDir)/Train.Title.Reduced $(ValFeatureDir)/Train.Body.Reduced\
 $(ValFeatureDir)/Test.Title.Reduced $(ValFeatureDir)/Test.Body.Reduced\
