@@ -31,17 +31,13 @@ $(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.BOW\
 $(ValFeatureDir)/Test.Id.BOW $(ValFeatureDir)/Test.Title.BOW\
 $(ValFeatureDir)/Test.Body.BOW $(ValFeatureDir)/Test.Tags.BOW\
 $(ValFeatureDir)/Test.candTags $(ValFeatureDir)/Train.candTags\
-<<<<<<< HEAD
 $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.tiwj\
-
-=======
 $(ValFeatureDir)/Train.Title.Reduced $(ValFeatureDir)/Train.Body.Reduced\
 $(ValFeatureDir)/Test.Title.Reduced $(ValFeatureDir)/Test.Body.Reduced\
 
 ValFeature.reduced:\
 $(ValFeatureDir)/Train.Title.Reduced $(ValFeatureDir)/Train.Body.Reduced\
 $(ValFeatureDir)/Test.Title.Reduced $(ValFeatureDir)/Test.Body.Reduced\
->>>>>>> 8a1c56c2bcb46a40faab0c6c36b4972c3f92e50b
 
 ValFeature.clean:
 	rm -f $(ValFeatureDir)/*
