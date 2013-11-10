@@ -44,6 +44,14 @@ $(ValDataDir)/Dictionary.refined:\
 $(ValDataDir)/Dictionary $(ExecutableDir)/cxz/dictRefine
 	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary $@ $(DictionarySize)
 
+$(ValDataDir)/Dictionary.Tags:\
+$(ValDataDir)/Train.Tags $(ExecutableDir)/cxz/dictGenerator
+	$(ExecutableDir)/cxz/dictGenerator $@ $(ValDataDir)/Train.Tags
+
+$(ValDataDir)/Dictionary.Tags.refined:\
+$(ValDataDir)/Dictionary.Tags $(ExecutableDir)/cxz/dictRefine
+	$(ExecutableDir)/cxz/dictRefine $(ValDataDir)/Dictionary.Tags $@ $(TagDictionarySize)
+
 #GlobalData
 $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv
 	$(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv $(GlobalDataDir)/HTMLTags
