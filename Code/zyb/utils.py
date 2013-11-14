@@ -5,15 +5,16 @@ import numpy as np
 import re
 import subprocess
 import zlib
+import sys
 
 
 def make_int_array():
     """Construct an array.array of a type suitable for scipy.sparse indices."""
-    return array.array(str("i"))
+    return array.array("i")
 
 
 def _make_float_array():
-    return array.array(str("f"))
+    return array.array("f")
 
 
 def _init_data(dtype):
@@ -74,8 +75,10 @@ def load_data(file_name, dtype=np.float32, n_samples=None):
             if i % 1000 == 0:
                 if n_samples:
                     print 'loading samples %.1f%%(%d/%d)...\r' % (100.0*i/n_samples, i, n_samples),
+                    sys.stdout.flush()
                 else:
                     print 'loading samples %d...\r' % i
+                    sys.stdout.flush()
 
             if i == n_samples:
                 break
