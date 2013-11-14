@@ -41,6 +41,13 @@ def main():
             f.write(utils.zdumps(model))
             print 'model saved to %s.' % output_file
 
+    if operation == 'test':
+        model_file = sys.argv[2]
+        X, y = load_data(feature_file=sys.argv[3], label_file=sys.argv[4])
+        with open(model_file, 'rb') as f:
+            model = utils.zloads(f.read()
+
+        model.predict(X)
 
 if __name__ == '__main__':
     main()
