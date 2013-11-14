@@ -92,7 +92,9 @@ int main(int argc,char** argv){
 	puts("Loading Finish");
 	ftitle=fopen(argv[4],"r");
 	fbody=fopen(argv[5],"r");
-	fcand=fopen(argv[6],"r");
+	if (strcmp(argv[6],"NULL")!=0)
+		fcand=fopen(argv[6],"r");
+	else fcand=0;
 	fpred=fopen(argv[7],"w");
 
 	int cnt=0;
@@ -104,16 +106,20 @@ int main(int argc,char** argv){
 			fflush(stdout);
 		}
 		body=parseFeature(s);
-		fgets(s,1000000,fcand);
-		cand=parseFeature(s);
 		
 		vector<pair<double,int> > pred;
 		pred.clear();
 
-		//for (int i=0;i<cand.size();i++)
-			//pred.PB(MP(predict(body,cand[i].first),cand[i].first));
-		for (int i=0;i<1000;i++)
-			pred.PB(MP(predict(body,i),i));
+		if (fcand){
+			fgets(s,1000000,fcand);
+			cand=parseFeature(s);
+			for (int i=0;i<cand.size();i++)
+				pred.PB(MP(predict(body,cand[i].first),cand[i].first));
+		}
+		else {
+			for (int i=0;i<100;i++)
+				pred.PB(MP(predict(body,i),i));
+		}
 		
 		sort(pred.begin(),pred.end());
 		reverse(pred.begin(),pred.end());

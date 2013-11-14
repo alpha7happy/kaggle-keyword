@@ -1,8 +1,12 @@
 $(ValRunDir)/NB.predict:\
 $(ExecutableDir)/cxz/NB \
 $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.tiwj \
-$(ValFeatureDir)/Test.Title.BOW $(ValFeatureDir)/Test.Body.BOW $(ValFeatureDir)/Test.candTags
-	$^ $@
+$(ValFeatureDir)/Test.Title.BOW $(ValFeatureDir)/Test.Body.BOW
+	$^ NULL $@
+
+$(ValRunDir)/NB.evaluate:\
+$(ExecutableDir)/cxz/f1score $(ValRunDir)/NB.final $(ValFeatureDir)/Test.Tags.tagBOW
+	$^
 
 $(ValRunDir)/%.tagView:\
 $(ExecutableDir)/cxz/tagView $(GlobalDataDir)/Tags.dict $(ValRunDir)/%.predict
@@ -11,14 +15,6 @@ $(ExecutableDir)/cxz/tagView $(GlobalDataDir)/Tags.dict $(ValRunDir)/%.predict
 $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
 	$^ 2 $@
-
-$(ValRunDir)/%.submit:\
-$(ExecutableDir)/cxz/genSubmit $(ValDataDir)/Test.Id $(ValRunDir)/%.final
-	$^ $@
-
-$(ValRunDir)/NB.evaluate:\
-$(ExecutableDir)/cxz/f1score $(ValRunDir)/NB.final $(ValFeatureDir)/Test.Tags.tagBOW
-	$^
 
 ValRun.all: ValData.all ValFeature.all
 

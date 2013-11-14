@@ -23,7 +23,7 @@ RandomProjectionLossRatio=0.1
 
 candTagSize=100
 
-NTopTags=1000
+NTopTags=100
 
 Config.all:
 
