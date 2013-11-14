@@ -2,17 +2,17 @@
 $(FullDataDir)/Train.Id $(FullDataDir)/Train.Title\
 $(FullDataDir)/Train.Body $(FullDataDir)/Train.Tags:\
 $(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv\
-$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
+$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict
 	$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv \
-	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
+	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict \
 	1 1 $(FullDataDir)/Train
 
 $(FullDataDir)/Test.Id $(FullDataDir)/Test.Title\
 $(FullDataDir)/Test.Body $(FullDataDir)/Test.Tags:\
 $(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Test.csv\
-$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
+$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict
 	$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Test.csv \
-	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
+	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict \
 	1 1 $(FullDataDir)/Test
 
 $(FullDataDir)/Dictionary:\
@@ -30,9 +30,9 @@ $(ValDataDir)/Train.Body $(ValDataDir)/Train.Tags\
 $(ValDataDir)/Test.Id $(ValDataDir)/Test.Title\
 $(ValDataDir)/Test.Body $(ValDataDir)/Test.Tags:\
 $(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv\
-$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict
+$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict
 	$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Train.csv \
-	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/Tags.dict \
+	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict \
 	2 $(ValTrainRatio) $(ValDataDir)/Train $(ValTestRatio) $(ValDataDir)/Test
 
 $(ValDataDir)/Dictionary:\
@@ -57,6 +57,8 @@ $(GlobalDataDir)/HTMLTags: $(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/T
 	$(ExecutableDir)/cxz/identifyHTMLTags $(RawDataDir)/Train.csv $(GlobalDataDir)/HTMLTags
 $(GlobalDataDir)/Tags.dict: $(ExecutableDir)/cxz/tagDictExtractor $(RawDataDir)/Train.csv
 	$(ExecutableDir)/cxz/tagDictExtractor $(RawDataDir)/Train.csv $@
+$(GlobalDataDir)/TopTags.dict: $(ExecutableDir)/cxz/topTags $(GlobalDataDir)/Tags.dict
+	$^ $(NTopTags) $@
 
 FullData.all: GlobalData.all\
 $(FullDataDir)/Train.Id $(FullDataDir)/Train.Title\
@@ -76,7 +78,7 @@ $(ValDataDir)/Dictionary.refined\
 
 GlobalData.all:\
 $(GlobalDataDir)/HTMLTags\
-$(GlobalDataDir)/Tags.dict
+$(GlobalDataDir)/TopTags.dict
 
 FullData.clean:
 	rm -f $(FullDataDir)/*

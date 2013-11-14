@@ -12,6 +12,10 @@ $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
 	$^ 2 $@
 
+$(ValRunDir)/%.submit:\
+$(ExecutableDir)/cxz/genSubmit $(ValDataDir)/Test.Id $(ValRunDir)/%.final
+	$^ $@
+
 $(ValRunDir)/NB.evaluate:\
 $(ExecutableDir)/cxz/f1score $(ValRunDir)/NB.final $(ValFeatureDir)/Test.Tags.tagBOW
 	$^

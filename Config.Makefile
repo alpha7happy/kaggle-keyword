@@ -13,7 +13,7 @@ ValDataDir=ValData
 ValFeatureDir=ValFeature
 ValRunDir=ValRun
 
-DictionarySize=1000000
+DictionarySize=2000
 TagDictionarySize=15000
 
 ValTrainRatio=0.07
@@ -22,6 +22,8 @@ ValTestRatio=0.03
 RandomProjectionLossRatio=0.1
 
 candTagSize=100
+
+NTopTags=1000
 
 Config.all:
 

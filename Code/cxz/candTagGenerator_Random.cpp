@@ -70,8 +70,10 @@ int main(int argc,char **argv){
 	ftags=fopen(argv[4],"r");
 	fout=fopen(argv[5],"w");
 	int N=atoi(argv[6]);
+	bool isTest=(strstr(argv[4],"Test")!=0);
 	int cnt=0;
-	for (;fgets(s,1000000,ftags);){
+	for (;fgets(s,1000000,ftitle);){
+		fgets(s,1000000,ftags);
 		cnt++;
 		if (cnt%10000==0){
 			printf("\rCalculating, #doc = %.2fM",cnt/1000000.);
@@ -80,8 +82,9 @@ int main(int argc,char **argv){
 		tags=parseFeature(s);
 		set<int> cand;
 		cand.clear();
-		for (int i=0;i<tags.size();i++)
-			cand.insert(tags[i].first);
+		if (!isTest)
+			for (int i=0;i<tags.size();i++)
+				cand.insert(tags[i].first);
 		for (;(int)cand.size()<N;)
 			cand.insert(getRandTag());
 		for (set<int>::iterator itr=cand.begin();itr!=cand.end();itr++)

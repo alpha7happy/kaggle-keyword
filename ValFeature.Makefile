@@ -1,5 +1,5 @@
 $(ValFeatureDir)/%.tagBOW:\
-$(ExecutableDir)/cxz/bowGenerator $(GlobalDataDir)/Tags.dict $(ValDataDir)/%
+$(ExecutableDir)/cxz/bowGenerator $(GlobalDataDir)/TopTags.dict $(ValDataDir)/%
 	$^ $@
 
 $(ValFeatureDir)/%.BOW:\
@@ -11,8 +11,8 @@ $(ValFeatureDir)/%.BOW $(ValDataDir)/Dictionary.refined
 	python $(CodeDir)/zyb/random_projection.py $^ $@ $(RandomProjectionLossRatio)
 
 $(ValFeatureDir)/%.candTags:\
-$(ExecutableDir)/cxz/candTagGenerator_Random $(GlobalDataDir)/Tags.dict \
-$(ValDataDir)/%.Title $(ValDataDir)/%.Body $(ValDataDir)/%.Tags
+$(ExecutableDir)/cxz/candTagGenerator_Random $(GlobalDataDir)/TopTags.dict \
+$(ValFeatureDir)/%.Title.BOW $(ValFeatureDir)/%.Body.BOW $(ValFeatureDir)/%.Tags.tagBOW
 	$^ $@ $(candTagSize)
 
 $(ValFeatureDir)/P.wi:\
@@ -20,12 +20,12 @@ $(ExecutableDir)/cxz/calcPwi $(ValDataDir)/Dictionary.refined
 	$^ $@
 
 $(ValFeatureDir)/P.ti:\
-$(ExecutableDir)/cxz/calcPwi $(GlobalDataDir)/Tags.dict
+$(ExecutableDir)/cxz/calcPwi $(GlobalDataDir)/TopTags.dict
 	$^ $@
 
 $(ValFeatureDir)/P.tiwj:\
 $(ExecutableDir)/cxz/calcPtiwj \
-$(ValDataDir)/Dictionary.refined $(GlobalDataDir)/Tags.dict \
+$(ValDataDir)/Dictionary.refined $(GlobalDataDir)/TopTags.dict \
 $(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.tagBOW
 	$^ $@
 

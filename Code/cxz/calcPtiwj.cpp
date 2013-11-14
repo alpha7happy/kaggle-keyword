@@ -66,6 +66,7 @@ int main(int argc,char **argv){
 	fbody=fopen(argv[4],"r");
 	ftags=fopen(argv[5],"r");
 	tiwj=new int*[(int)tags.size()];
+	printf("NTag = %d, NWord = %d\n",(int)tags.size(),(int)words.size());
 	for (int i=0;i<(int)tags.size();i++){
 		tiwj[i]=new int[(int)words.size()];
 		for (int j=0;j<(int)words.size();j++)

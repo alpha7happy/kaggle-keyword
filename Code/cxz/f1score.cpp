@@ -40,6 +40,8 @@ int main(int argc,char **argv){
 	char s[1000000];
 	double sum=0;
 	int cnt=0;
+	double sp=0;
+	double sr=0;
 	for (;fgets(s,1000000,fpred);){
 		vector<int> pred=parseFeature(s);
 		fgets(s,1000000,ftruth);
@@ -54,11 +56,17 @@ int main(int argc,char **argv){
 				hit++;
 		double p=hit/(double)spred.size();
 		double r=hit/(double)truth.size();
-		if (hit>0) sum+=2*p*r/(p+r);
-		//cout<<p<<' '<<r<<endl;
+		if (hit>0) {
+			sum+=2*p*r/(p+r);
+			sp+=p;
+			sr+=r;
+		}
 		cnt++;
 	}
-	cout<<sum/cnt<<endl;
+	printf("F1-Score = %.5f\n",sum/cnt);
+	printf("Avg P = %.5f\n",sp/cnt);
+	printf("Avg R = %.5f\n",sr/cnt);
+
 	fclose(fpred);
 	fclose(ftruth);
 	return 0;

@@ -110,9 +110,10 @@ int main(int argc,char** argv){
 		vector<pair<double,int> > pred;
 		pred.clear();
 
-		for (int i=0;i<cand.size();i++){
-			pred.PB(MP(predict(body,cand[i].first),cand[i].first));
-		}
+		//for (int i=0;i<cand.size();i++)
+			//pred.PB(MP(predict(body,cand[i].first),cand[i].first));
+		for (int i=0;i<1000;i++)
+			pred.PB(MP(predict(body,i),i));
 		
 		sort(pred.begin(),pred.end());
 		reverse(pred.begin(),pred.end());
