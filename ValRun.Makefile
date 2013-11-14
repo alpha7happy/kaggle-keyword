@@ -8,8 +8,8 @@ $(ValRunDir)/NB.evaluate:\
 $(ExecutableDir)/cxz/f1score $(ValRunDir)/NB.final $(ValFeatureDir)/Test.Tags.tagBOW
 	$^
 
-$(ValRunDir)/%.tagView:\
-$(ExecutableDir)/cxz/tagView $(GlobalDataDir)/Tags.dict $(ValRunDir)/%.predict
+$(ValRunDir)/%.submit:\
+$(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(ValDataDir)/Test.Id $(ValRunDir)/%.final
 	$^ $@
 
 $(ValRunDir)/%.final:\

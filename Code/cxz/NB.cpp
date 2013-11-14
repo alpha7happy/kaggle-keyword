@@ -98,7 +98,7 @@ int main(int argc,char** argv){
 	fpred=fopen(argv[7],"w");
 
 	int cnt=0;
-	for (;fgets(s,1000000,fbody);) if (strlen(s)>1){
+	for (;fgets(s,1000000,fbody);) if (strlen(s)>0){
 
 		cnt++;
 		if (cnt%1000==0){

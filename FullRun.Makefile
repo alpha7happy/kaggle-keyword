@@ -4,10 +4,6 @@ $(FullFeatureDir)/P.ti $(FullFeatureDir)/P.wi $(FullFeatureDir)/P.tiwj \
 $(FullFeatureDir)/Test.Title.BOW $(FullFeatureDir)/Test.Body.BOW
 	$^ NULL $@
 
-$(FullRunDir)/%.tagView:\
-$(ExecutableDir)/cxz/tagView $(GlobalDataDir)/Tags.dict $(FullRunDir)/%.predict
-	$^ $@
-
 $(FullRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(FullRunDir)/%.predict
 	$^ 2 $@

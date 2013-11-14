@@ -23,6 +23,7 @@ vector<string> dict;
 void loadDict(char* filename){
 	FILE* fin=fopen(filename,"r");
 	dict.clear();
+	char s[10000];
 	for (;fscanf(fin,"%s%*d",s)==1;)
 		dict.PB(s);
 	fclose(fin);
@@ -41,14 +42,17 @@ int main(int argc,char **argv){
 	char s[1000000];
 	int id;
 	fprintf(fout,"\"Id\",\"Tags\"\n");
-	for (;fscanf(fid,"%d",&id);){
+	for (;fscanf(fid,"%d",&id)==1;){
 		fgets(s,1000000,fin);
 		fprintf(fout,"%d,\"",id);
 		bool st=true;
 		for (char* p=strtok(s," ");p;p=strtok(NULL," ")){
-			if (!s) fprintf(fout," ");
-			s=false;
-			fprintf(fout,"%s",dict[atoi(p)].c_str());
+			st=false;
+			int id;
+			if (sscanf(p,"%d",&id)==1){
+				if (!st) fprintf(fout," ");
+				fprintf(fout,"%s",dict[id].c_str());
+			}
 		}
 		fprintf(fout,"\"\n");
 	}

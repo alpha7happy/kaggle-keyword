@@ -9,9 +9,9 @@ $(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict
 
 $(FullDataDir)/Test.Id $(FullDataDir)/Test.Title\
 $(FullDataDir)/Test.Body $(FullDataDir)/Test.Tags:\
-$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Test.csv\
+$(ExecutableDir)/cxz/rawDataParserTest $(RawDataDir)/Test.csv\
 $(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict
-	$(ExecutableDir)/cxz/rawDataParser $(RawDataDir)/Test.csv \
+	$(ExecutableDir)/cxz/rawDataParserTest $(RawDataDir)/Test.csv \
 	$(GlobalDataDir)/HTMLTags $(GlobalDataDir)/TopTags.dict \
 	1 1 $(FullDataDir)/Test
 
