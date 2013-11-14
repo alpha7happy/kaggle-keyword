@@ -6,7 +6,7 @@ $(FullFeatureDir)/Test.Title.BOW $(FullFeatureDir)/Test.Body.BOW
 
 $(FullRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(FullRunDir)/%.predict
-	$^ 2 $@
+	$^ 3 $@
 
 $(FullRunDir)/%.submit:\
 $(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(FullDataDir)/Test.Id $(FullRunDir)/%.final

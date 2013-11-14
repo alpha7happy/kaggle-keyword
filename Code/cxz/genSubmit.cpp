@@ -47,10 +47,10 @@ int main(int argc,char **argv){
 		fprintf(fout,"%d,\"",id);
 		bool st=true;
 		for (char* p=strtok(s," ");p;p=strtok(NULL," ")){
-			st=false;
 			int id;
 			if (sscanf(p,"%d",&id)==1){
 				if (!st) fprintf(fout," ");
+				st=false;
 				fprintf(fout,"%s",dict[id].c_str());
 			}
 		}

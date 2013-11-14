@@ -117,7 +117,7 @@ int main(int argc,char** argv){
 				pred.PB(MP(predict(body,cand[i].first),cand[i].first));
 		}
 		else {
-			for (int i=0;i<100;i++)
+			for (int i=0;i<nT;i++)
 				pred.PB(MP(predict(body,i),i));
 		}
 		

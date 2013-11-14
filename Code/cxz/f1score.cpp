@@ -23,8 +23,12 @@ vector<int> parseFeature(char* s){
 	res.clear();
 	for (char* p=strtok(s," ");p;p=strtok(NULL," ")){
 		int id;
-		if (sscanf(p,"%d:%*d",&id)==1)
-			res.PB(id);
+		int cnt=0;
+		if (sscanf(p,"%d:%d",&id,&cnt)>=1){
+			if (id>=0)
+				res.PB(id);
+			else for (int z=0;z<cnt;z++) res.PB(-1-z);
+		}
 	}
 	return res;
 }

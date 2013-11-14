@@ -14,7 +14,7 @@ $(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(ValDataDir)/Test.
 
 $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
-	$^ 2 $@
+	$^ 3 $@
 
 ValRun.all: ValData.all ValFeature.all
 

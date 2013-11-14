@@ -44,7 +44,8 @@ int main(int argc,char **argv){
 	for (;fgets(s,1000000,fin);){
 		vector<pair<int,double> > pred=parseFeature(s);
 		for (int i=0;i<pred.size();i++)
-			if (pred[i].second>thres||i<2)
+			if (i<4)
+			if (pred[i].second>thres||i<3)
 				fprintf(fout,"%d ",pred[i].first);
 		fprintf(fout,"\n");
 	}

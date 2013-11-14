@@ -37,6 +37,7 @@ int main(int argc,char** argv){
 		puts("Argument Error");
 		return 0;
 	}
+	bool isTag=(strstr(argv[3],"tagBOW")!=0);
 	loadDict(argv[1]);
 	puts("Dictionary Loaded");
 	fin=fopen(argv[2],"r");
@@ -53,6 +54,8 @@ int main(int argc,char** argv){
 		for (char* p=strtok(s," ");p;p=strtok(NULL," "))
 			if (rid.find(p)!=rid.end())
 				bow[rid[p]]++;
+			else if (isTag)
+				bow[-1]++;
 		for (map<int,int>::iterator itr=bow.begin();itr!=bow.end();itr++)
 			fprintf(fout,"%d:%d ",itr->first,itr->second);
 		fprintf(fout,"\n");

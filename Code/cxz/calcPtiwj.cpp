@@ -47,7 +47,8 @@ vector<pair<int,int> > parseFeature(char* s){
 	for (char* p=strtok(s," ");p;p=strtok(NULL," ")){
 		int id,cnt;
 		if (sscanf(p,"%d:%d",&id,&cnt)==2)
-			res.PB(MP(id,cnt));
+			if (id!=-1)
+				res.PB(MP(id,cnt));
 	}
 	return res;
 }
