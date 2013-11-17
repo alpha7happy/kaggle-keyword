@@ -6,18 +6,29 @@ from sklearn.naive_bayes import MultinomialNB
 
 
 def transform(X, y):
+    """
+    1. convert row-based features to col-based.
+    2. transform multi-label to multiple samples with single-label.
+    """
     n_new_samples = sum(sum(y != 0))
     new_y = utils.make_int_array()
-    p = csc_matrix((X.shape(2), n_new_samples))
+    p = csc_matrix((X.shape(1), n_new_samples))
 
-    idx_r, idx_c = np.where(y != 0)
-    for j in idx_c:
-        for i in idx_r:
-            new_y.append()
+    X = np.transpose(X)
+    idx_c, idx_r = np.where(y != 0)
+    y = np.transpose(y)
+
+    for i, (i_r, i_c) in enumerate(zip(idx_r, idx_c)):
+        new_y.append(y[i_r, i_c])
+        p[i_c, i] = 1
+
+    new_X = X*p
+    return new_X.toarray(), np. new_y
+
 
 def train(X, y):
     model = MultinomialNB()
-    return model.fit(, )
+    return model.fit(X, y)
 
 
 def load_data(feature_file, label_file):
@@ -35,3 +46,16 @@ def load_data(feature_file, label_file):
     y = csc_matrix((values, indices, indptr))
 
     return np.transpose(X), np.transpose(y)
+
+
+def main():
+    operation = sys.argv[1]
+    if operation == 'train':
+        X, y = load_data(feature_file=sys.argv[2], label_file=sys.argv[3])
+        X, y = transform(X, y)
+        model = train(X, y)
+
+        output_file = sys.argv[3]
+        with open(output_file, 'wb') as f:
+            f.write(utils.zdumps(model))
+            print 'model saved to %s.' % output_file
