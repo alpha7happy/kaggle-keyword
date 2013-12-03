@@ -34,10 +34,10 @@ def train(X, y):
 def load_data(feature_file, label_file):
     # n_samples = utils.count_lines(feature_file)
     n_samples = 10000
-    values, indices, indptr = utils.load_data(feature_file, n_samples=n_samples)
+    values, indices, indptr = utils._load_data(feature_file, n_samples=n_samples)
     X = csc_matrix((values, indices, indptr))
 
-    indices, values, indptr = utils.load_data(label_file, dtype=np.intc, n_samples=n_samples)
+    indices, values, indptr = utils._load_data(label_file, dtype=np.intc, n_samples=n_samples)
 
     for i in range(0, len(indptr)-1):
         current = indptr[i]

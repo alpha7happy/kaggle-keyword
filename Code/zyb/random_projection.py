@@ -37,7 +37,7 @@ def transform(sample_file, dict_file, projection_file, output_file):
         # p = pickle.load(f)
 
     with open(output_file, 'w') as f:
-        for (v, idx, ptr) in utils.load_data_batch(sample_file, batch_size, np.intc, n_samples):
+        for (v, idx, ptr) in utils._load_data_batch(sample_file, batch_size, np.intc, n_samples):
             X = csr_matrix((v, idx, ptr), shape=(len(ptr)-1, n_features))
             print 'transforming... \r',
             sys.stdout.flush()
