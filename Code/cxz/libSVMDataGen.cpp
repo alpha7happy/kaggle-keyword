@@ -19,10 +19,7 @@ using namespace std;
 #define PB push_back
 #define MP make_pair
 
-FILE* ftitle;
-FILE* fbody;
-FILE* ftag;
-vector<string> body;
+vector<string> data;
 vector<set<int> >tag;
 int Ntag;
 
@@ -38,35 +35,45 @@ vector<pair<int,int> > parseFeature(char* s){
 	return res;
 }
 
+string toData(vector<pair<int,int> > data){
+	string res="";
+	char s[1000];
+	for (int i=0;i<data.size();i++){
+		sprintf(s,"%d:%d ",1+data[i].first,data[i].second);
+		res=res+s;
+	}
+	return res;
+}
 
+char s[1000000];
 int main(int argc,char** argv){
-	if (argc!=){
+	if (argc!=4){
 		puts("Argument Error");
 		return 0;
 	}
-	ftitle=fopen(argv[1],"r");
-	fbody=fopen(argv[2],"r");
-	ftag=fopen(argv[3],"r");
-	Ntag=atoi(argv[4]);
-	string svmdir=fopen(argv[])
-	body.clear();
+	FILE* ffeature=fopen(argv[1],"r");
+	FILE* ftag=fopen(argv[2],"r");
+	FILE* fout=fopen(argv[3],"w");
+	
+	data.clear();
 	tag.clear();
-	for (;fgets(s,1000000,ftags);){
+	int cnt=0;
+	
+	for (;fgets(s,1000000,ffeature);){
 		cnt++;
 		if (cnt%10000==0){
 			printf("\rCalculating, #doc = %.2fM",cnt/1000000.);
 			fflush(stdout);
 		}
+		if (cnt==2000) break; 
+		string data=s;
 		set<int> ttag;
 		ttag.clear();
+		fgets(s,1000000,ftag);
 		vector<pair<int,int> > ptag=parseFeature(s);
 		for (int i=0;i<ptag.size();i++)
-			ttag.insert(ptag[i].first);
-		tag.PB(ttag);
-		fgets(s,1000000,fbody);
-		body.PB(s);
+			fprintf(fout,"%d %s",ptag[i].first,data.c_str());
 	}
-
-
+	fclose(fout);
 	return 0;
 }

@@ -67,6 +67,7 @@ int main(int argc,char **argv){
 		}
 		cnt++;
 	}
+	printf("#doc = %d\n",cnt);
 	printf("F1-Score = %.5f\n",sum/cnt);
 	printf("Avg P = %.5f\n",sp/cnt);
 	printf("Avg R = %.5f\n",sr/cnt);
