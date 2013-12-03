@@ -29,6 +29,43 @@ $(ValDataDir)/Dictionary.refined $(GlobalDataDir)/TopTags.dict \
 $(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.tagBOW
 	$^ $@
 
+$(ValFeatureDir)/%.NB.pred:\
+$(ExecutableDir)/cxz/NB \
+$(ValFeatureDir)/P.ti $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.tiwj \
+$(ValFeatureDir)/%.Title.BOW $(ValFeatureDir)/%.Body.BOW
+	$^ NULL $@
+
+$(ValFeatureDir)/Test.Merge.feature:\
+$(ExecutableDir)/cxz/mergeFeature\
+$(ValFeatureDir)/Test.Body.BOW
+	$(ExecutableDir)/cxz/mergeFeature 1 \
+	$(ValFeatureDir)/Test.Body.BOW $(DictionarySize) \
+	$@
+
+$(ValFeatureDir)/Train.Merge.feature:\
+$(ExecutableDir)/cxz/mergeFeature\
+$(ValFeatureDir)/Train.Body.BOW
+	$(ExecutableDir)/cxz/mergeFeature 1 \
+	$(ValFeatureDir)/Train.Body.BOW $(DictionarySize) \
+	$@
+
+$(ValFeatureDir)/Train.libFeature:\
+$(ExecutableDir)/cxz/libSVMDataGen\
+$(ValFeatureDir)/Train.Merge.feature $(ValFeatureDir)/Train.Tags.tagBOW
+	$^ $@
+
+$(ValFeatureDir)/Test.svmFeature:\
+$(ExecutableDir)/cxz/svmTestDataGen $(ValFeatureDir)/Test.Merge.feature
+	$^ $@
+
+$(ValFeatureDir)/Train.libFeature.scaled range:\
+Tools/libSVM/svm-scale $(ValFeatureDir)/Train.libFeature
+	Tools/libSVM/svm-scale -l -1 -u 1 -s range $(ValFeatureDir)/Train.libFeature > $@
+
+$(ValFeatureDir)/Test.svmFeature.scaled:\
+Tools/libSVM/svm-scale $(ValFeatureDir)/Test.svmFeature range
+	Tools/libSVM/svm-scale -r range $(ValFeatureDir)/Test.svmFeature > $@
+
 ValFeature.all:\
 $(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Body.BOW\
 $(ValFeatureDir)/Train.Tags.tagBOW $(ValFeatureDir)/Test.Title.BOW\

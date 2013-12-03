@@ -69,11 +69,14 @@ vector<pair<int,int> > parseFeature(char* s){
 char s[1000000];
 vector<pair<int,int> > title,body,cand;
 
-double predict(vector<pair<int,int> >body, int tid){
+double predict(vector<pair<int,int> >title, vector<pair<int,int> >body, int tid){
 	double *tp=tiwj[tid];
 	double res=0;
 	for (int i=0;i<body.size();i++){
 		res+=body[i].second*tp[body[i].first];
+	}
+	for (int i=0;i<title.size();i++){
+		res+=title[i].second*tp[title[i].first]*5;
 	}
 	res+=ti[tid];
 	return res;
@@ -106,7 +109,8 @@ int main(int argc,char** argv){
 			fflush(stdout);
 		}
 		body=parseFeature(s);
-		
+		fgets(s,1000000,ftitle);
+		title=parseFeature(s);
 		vector<pair<double,int> > pred;
 		pred.clear();
 
@@ -114,16 +118,16 @@ int main(int argc,char** argv){
 			fgets(s,1000000,fcand);
 			cand=parseFeature(s);
 			for (int i=0;i<cand.size();i++)
-				pred.PB(MP(predict(body,cand[i].first),cand[i].first));
+				pred.PB(MP(predict(title,body,cand[i].first),cand[i].first));
 		}
 		else {
 			for (int i=0;i<nT;i++)
-				pred.PB(MP(predict(body,i),i));
+				pred.PB(MP(predict(title,body,i),i));
 		}
 		
 		sort(pred.begin(),pred.end());
 		reverse(pred.begin(),pred.end());
-		for (int i=0;i<20;i++)
+		for (int i=0;i<pred.size();i++)
 			fprintf(fpred,"%d:%.5f ",pred[i].second,pred[i].first);
 		fprintf(fpred,"\n");
 	}

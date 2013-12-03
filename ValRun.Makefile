@@ -68,6 +68,33 @@ $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
 	$^ 1 $@
 
+$(ValRunDir)/SVM/0.model:\
+$(ExecutableDir)/cxz/SVM_learn\
+$(ValFeatureDir)/Train.Merge.feature $(ValFeatureDir)/Train.Tags.tagBOW
+	$^ $(ValRunDir)/SVM/ $(NTopTags)
+
+$(ValRunDir)/SVM.predict:\
+$(ExecutableDir)/cxz/SVM_predict\
+$(ValFeatureDir)/Test.Merge.feature
+	$^ $(ValRunDir)/SVM/ $(NTopTags) $@
+
+$(ValRunDir)/libSVM.model:\
+Tools/libSVM/svm-train $(ValFeatureDir)/Train.libFeature.scaled
+	Tools/libSVM/svm-train -b 1 $(ValFeatureDir)/Train.libFeature.scaled $@ > $(ValRunDir)/libSVM.log
+
+$(ValRunDir)/libSVM.trainerror:\
+Tools/libSVM/svm-predict $(ValFeatureDir)/Train.libFeature.scaled $(ValRunDir)/libSVM.model
+	Tools/libSVM/svm-predict -b 1 $(ValFeatureDir)/Train.libFeature.scaled $(ValRunDir)/libSVM.model $@
+
+$(ValRunDir)/libSVM.predict:\
+Tools/libSVM/svm-predict $(ValFeatureDir)/Test.svmFeature.scaled $(ValRunDir)/libSVM.model
+	Tools/libSVM/svm-predict -b 1 $(ValFeatureDir)/Test.svmFeature.scaled $(ValRunDir)/libSVM.model $@
+
+
+Val.SVM.clean:
+	rm -f $(ValRunDir)/SVM.*
+	rm -f -r $(ValRunDir)/SVM
+
 ValRun.all: ValData.all ValFeature.all
 
 ValRun.clean:

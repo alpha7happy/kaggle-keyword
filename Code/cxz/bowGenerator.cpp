@@ -27,8 +27,10 @@ char s[1000000];
 void loadDict(char* filename){
 	FILE* fin=fopen(filename,"r");
 	rid.clear();
-	for (;fscanf(fin,"%s%*d",s)==1;)
-		rid[s]=rid.size();
+	for (;fscanf(fin,"%s%*d",s)==1;){
+		int id=rid.size();
+		rid[s]=id;
+	}
 	fclose(fin);
 }
 

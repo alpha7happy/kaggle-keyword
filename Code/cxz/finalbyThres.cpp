@@ -43,9 +43,10 @@ int main(int argc,char **argv){
 	char s[1000000];
 	for (;fgets(s,1000000,fin);){
 		vector<pair<int,double> > pred=parseFeature(s);
+		double ma=pred[0].second;
 		for (int i=0;i<pred.size();i++)
-			if (i<4)
-			if (pred[i].second>thres||i<3)
+			if (i<2)
+			if (pred[i].second/ma<1.01||i<1)
 				fprintf(fout,"%d ",pred[i].first);
 		fprintf(fout,"\n");
 	}

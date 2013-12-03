@@ -18,15 +18,17 @@ using namespace std;
 #define PB push_back
 #define MP make_pair
 
-vector<pair<int,double> > parseFeature(char* s){
-	vector<pair<int,double> > res;
+vector<pair<double,int> > parseFeature(char* s){
+	vector<pair<double,int> > res;
 	res.clear();
 	for (char* p=strtok(s," ");p;p=strtok(NULL," ")){
 		int id;
 		double t=0;
 		if (sscanf(p,"%d:%lf",&id,&t)>=1)
-			res.PB(MP(id,t));
+			res.PB(MP(t,id));
 	}
+	sort(res.begin(),res.end());
+	reverse(res.begin(),res.end());
 	return res;
 }
 
@@ -41,9 +43,10 @@ int main(int argc,char **argv){
 
 	char s[1000000];
 	for (;fgets(s,1000000,fin);){
-		vector<pair<int,double> > pred=parseFeature(s);
+		vector<pair<double,int> > pred=parseFeature(s);
+		//reverse(pred.begin(),pred.end());
 		for (int i=0;i<min(K,(int)pred.size());i++)
-			fprintf(fout,"%d ",pred[i].first);
+			fprintf(fout,"%d ",pred[i].second);
 		fprintf(fout,"\n");
 	}
 
