@@ -67,7 +67,6 @@ $(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(ValDataDir)/Test.
 $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
 	$^ 1 $@
-<<<<<<< HEAD
 
 $(ValRunDir)/SVM/0.model:\
 $(ExecutableDir)/cxz/SVM_learn\
@@ -96,8 +95,6 @@ Tools/libSVM/svm-predict $(ValFeatureDir)/Test.svmFeature.scaled $(ValRunDir)/li
 Val.SVM.clean:
 	rm -f $(ValRunDir)/SVM.*
 	rm -f -r $(ValRunDir)/SVM
-=======
->>>>>>> 52331f6... sgd, multiple rf
 
 ValRun.all: ValData.all ValFeature.all
 
