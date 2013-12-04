@@ -30,11 +30,17 @@ def _make_float_array():
     return array.array("f")
 
 
+def _make_double_array():
+    return array.array("d")
+
+
 def _init_data(dtype):
     if dtype == np.intc:
         values = make_int_array()
     elif dtype == np.float32:
         values = _make_float_array()
+    elif dtype == np.float64:
+        values = _make_double_array()
     else:
         raise ValueError('Unknown dtype.')
 
@@ -167,7 +173,7 @@ def normalize_rows(X, norm='l1'):
     return X
 
 
-def load_data(feature_file, label_file=None, n_samples=None, rate_choices=None, choices=None, normalize=False):
+def load_data(feature_file, label_file=None, n_samples=None, dtype=np.intc, rate_choices=None, choices=None, normalize=False):
     if not n_samples:
         n_samples = count_lines(feature_file)
     if rate_choices and choices is None:
@@ -177,7 +183,7 @@ def load_data(feature_file, label_file=None, n_samples=None, rate_choices=None, 
     else:
         choices = None
 
-    dtype = np.float32 if normalize else np.intc
+    dtype = np.float32 if normalize else dtype
     values, indices, indptr = _load_data(feature_file, n_samples, dtype=dtype, choices=choices)
     X = csr_matrix((values, indices, indptr))
     X = normalize_rows(X) if normalize else X
@@ -258,3 +264,12 @@ def to_single_output(X, y):
         indptr.append(len(indices))
     P = csc_matrix(_convert_data(values, indices, indptr, np.intc))
     return P*X, new_y
+
+
+def write_prediction(f, y, classes, topK=100, sort=False):
+    for yi in y:
+        pos = np.argsort(yi)[::-1][:topK] if sort else xrange(len(classes))
+        for p in pos:
+            if classes[p] != -1 and yi[p] != -np.inf:
+                f.write('%d:%f ' % (classes[p], yi[p]))
+        f.write('\n')

@@ -49,6 +49,28 @@ $(ValFeatureDir)/Train.Body.BOW
 	$(ValFeatureDir)/Train.Body.BOW $(DictionarySize) \
 	$@
 
+$(ValFeatureDir)/Train.RF.NB.Merge.feature:\
+$(ExecutableDir)/cxz/mergeFeature $(ValRunDir)/RF.predict $(ValRunDir)/NB.predict
+	$(ExecutableDir)/cxz/mergeFeature 6 \
+	$(ValRunDir)/RF.predict.0 $(NTopTags) \
+	$(ValRunDir)/RF.predict.1 $(NTopTags) \
+	$(ValRunDir)/RF.predict.2 $(NTopTags) \
+	$(ValRunDir)/RF.predict.3 $(NTopTags) \
+	$(ValRunDir)/RF.predict.4 $(NTopTags) \
+	$(ValRunDir)/NB.predict $(NTopTags)
+
+$(ValFeatureDir)/Train.Ultimate.Merge.feature:\
+$(ExecutableDir)/cxz/mergeFeature $(ValRunDir)/RF.predict $(ValRunDir)/NB.predict
+	$(ExecutableDir)/cxz/mergeFeature 2 \
+	$(ValRunDir)/RF.predict.0 $(NTopTags) \
+	$(ValRunDir)/RF.predict.1 $(NTopTags) \
+	$(ValRunDir)/NB.predict $(NTopTags) \
+	$(ValRunDir)/SGD.predict $(NTopTags) \
+	$(ValRunDir)/SGD.SVM.predict.1 $(NTopTags) \
+	$(ValRunDir)/RF.Title.predict.0 $(NTopTags) \
+	$(ValRunDir)/RF.Title.predict.1 $(NTopTags) \
+	$(ValRunDir)/NB.predict $(NTopTags)
+
 $(ValFeatureDir)/Train.libFeature:\
 $(ExecutableDir)/cxz/libSVMDataGen\
 $(ValFeatureDir)/Train.Merge.feature $(ValFeatureDir)/Train.Tags.tagBOW

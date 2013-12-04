@@ -1,3 +1,4 @@
+import os
 import sys
 import utils
 import numpy as np
@@ -12,7 +13,7 @@ def train(X, y, target_model, n_estimators=10, n_jobs=1):
     if target_model == 'ExtraTree':
         model = ExtraTreesClassifier(n_estimators=n_estimators, min_samples_leaf=15, n_jobs=n_jobs)
     elif target_model == 'RandomForest':
-        model = RandomForestClassifier(n_estimators=n_estimators, min_samples_leaf=15, n_jobs=n_jobs)
+        model = RandomForestClassifier(n_estimators=n_estimators, min_samples_leaf=15, n_jobs=n_jobs, verbose=1)
     else:
         raise ValueError('Target model %s is not supported.' % target_model)
 
@@ -21,11 +22,22 @@ def train(X, y, target_model, n_estimators=10, n_jobs=1):
 
 def write_prediction(f, y, classes):
     for i in xrange(0, len(y[0])):
+        p = set()
         for l in xrange(0, 5):
-            masked = np.ma.masked_array(y[l][i], y[l][i] == 0)  # Exclude all 0.
-            masked.mask[0] = True                                 # Exclude class -1.
-            pos = np.ma.argmax(masked)
-            f.write('%d:%f ' % (classes[l][pos], y[l][i][pos]))
+            yli = y[l][i]
+            np.place(yli, yli == 0, -np.inf)
+            yli[0] = -np.inf
+            for t in xrange(0, 5):
+                pos = np.argmax(yli)
+                c = classes[l][pos]
+                if c in p:
+                    yli[pos] = -np.inf
+                else:
+                    break
+            
+            if c != -1 and yli[pos] != 0:
+                f.write('%d:%f ' % (c, yli[pos]))
+                p.add(classes[l][pos])
         f.write('\n')
 
     #for row in y:
@@ -83,10 +95,14 @@ def main():
     operation = sys.argv[1]
     if operation == 'train':
         model = sys.argv[2]
-        X, y = utils.load_data(feature_file=sys.argv[3], label_file=sys.argv[4])
+        if len(sys.argv) > 6:
+            n_samples = int(sys.argv[6])
+            X, y = utils.load_data(feature_file=sys.argv[3], label_file=sys.argv[4], n_samples=n_samples)
+        else:
+            X, y = utils.load_data(feature_file=sys.argv[3], label_file=sys.argv[4])
         model = train(X, y, model)
 
-        output_file = sys.argv[5]
+        output_file = sys.argv[5]            
         with gzip.open(output_file, 'wb') as f:
             cPickle.dump(model, f, cPickle.HIGHEST_PROTOCOL)
             print 'model saved to %s.' % output_file
@@ -96,14 +112,25 @@ def main():
         model_file = sys.argv[2]
         feature_file = sys.argv[3]
         output_file = sys.argv[4]
-        X = utils.load_data(feature_file)
+        n_samples = utils.count_lines(feature_file)
         with gzip.open(model_file, 'rb') as f:
+            print 'loading model...'
             model = cPickle.load(f)
 
         with open(output_file, 'wb') as f:
-            y = model.predict_log_proba(X.toarray())
-            write_prediction(f, y, model.classes_)
-            
+            for i in xrange(5):
+                try:
+                    os.remove(output_file + '.' + str(i))
+                except OSError:
+                    pass
+
+            for i_batch, X in enumerate(utils.load_data_batch(feature_file, 10000, n_samples)):
+                y = model.predict_log_proba(X.toarray())
+                write_prediction(f, y, model.classes_)
+                for i in xrange(5):
+                    with open(output_file + '.' + str(i), 'a') as ff:
+                        utils.write_prediction(ff, y[i], model.classes_[i])
+
     elif operation == 'split_train':
         model_name = sys.argv[2]
         feature_file=sys.argv[3]
@@ -116,7 +143,6 @@ def main():
         output_file = sys.argv[10]
 
         pool = Pool(processes=n_jobs)
-
 
         for i in xrange(0, n_models):
             X, y = utils.load_data(feature_file, label_file, rate_choices=rate_choices, normalize=normalize)
@@ -160,7 +186,7 @@ def main():
                 model = cPickle.load(f_model)
                 model.n_jobs = 1
             class_map = get_class_map(model.classes_, classes)
-            for i_batch, X in enumerate(load_data_batch(feature_file, 10000, n_samples, normalize)):
+            for i_batch, X in enumerate(utils.load_data_batch(feature_file, 10000, n_samples, normalize)):
                 print 'predicting...'
                 y = model.predict_proba(X.toarray())
                 y = apply_class_map(y, class_map, len(classes), 5)

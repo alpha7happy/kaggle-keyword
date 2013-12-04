@@ -14,6 +14,14 @@ $(ValRunDir)/RF.predict:\
 $(ValRunDir)/RF.model $(ValFeatureDir)/Test.Body.BOW
 	python $(CodeDir)/zyb/random_forest.py test $^ $@
 
+$(ValRunDir)/RF.testonly.model:\
+$(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.tagBOW
+	python $(CodeDir)/zyb/random_forest.py train RandomForest $^ $@ 5000
+
+$(ValRunDir)/RF.testonly.predict:\
+$(ValRunDir)/RF.testonly.model $(ValFeatureDir)/Test.Body.BOW
+	python $(CodeDir)/zyb/random_forest.py test $^ $@
+
 $(ValRunDir)/RF.Title.model:\
 $(ValFeatureDir)/Train.Title.BOW $(ValFeatureDir)/Train.Tags.tagBOW
 	python $(CodeDir)/zyb/random_forest.py train RandomForest $^ $@
@@ -40,7 +48,7 @@ $(ValRunDir)/SGD.SVM.model $(ValFeatureDir)/Test.Body.BOW
 
 $(ValRunDir)/RF_split.model:\
 $(ValFeatureDir)/Train.Body.BOW $(ValFeatureDir)/Train.Tags.tagBOW
-	python $(CodeDir)/zyb/random_forest.py split_train RandomForest $^ 5 0.4 5 1 normalize_off $@
+	python $(CodeDir)/zyb/random_forest.py split_train RandomForest $^ 6 0.4 5 1 normalize_off $@
 
 $(ValRunDir)/RF_split.y:\
 $(ValRunDir)/RF_split.model $(ValFeatureDir)/Test.Body.BOW
@@ -66,7 +74,7 @@ $(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(ValDataDir)/Test.
 
 $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
-	$^ 1 $@
+	$^ 3 $@
 
 $(ValRunDir)/SVM/0.model:\
 $(ExecutableDir)/cxz/SVM_learn\
