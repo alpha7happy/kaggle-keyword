@@ -6,6 +6,10 @@ $(ValFeatureDir)/%.BOW:\
 $(ExecutableDir)/cxz/bowGenerator $(ValDataDir)/Dictionary.refined $(ValDataDir)/%
 	$^ $@
 
+$(ValFeatureDir)/%.tfidf:\
+$(ExecutableDir)/cxz/tfidfGenerator $(ValDataDir)/idfDict $(ValFeatureDir)/%.BOW
+	$^ $@
+
 #$(ValFeatureDir)/%.Reduced:\
 #$(ValFeatureDir)/%.BOW $(ValDataDir)/Dictionary.refined
 #	python $(CodeDir)/zyb/random_projection.py $^ $@ $(RandomProjectionLossRatio)
@@ -35,19 +39,34 @@ $(ValFeatureDir)/P.ti $(ValFeatureDir)/P.wi $(ValFeatureDir)/P.tiwj \
 $(ValFeatureDir)/%.Title.BOW $(ValFeatureDir)/%.Body.BOW
 	$^ NULL $@
 
+$(ValFeatureDir)/%.softmax:\
+$(ExecutableDir)/cxz/softmax \
+$(ValFeatureDir)/%
+	$^ $@
+
 $(ValFeatureDir)/Test.Merge.feature:\
 $(ExecutableDir)/cxz/mergeFeature\
-$(ValFeatureDir)/Test.Body.BOW
+$(ValFeatureDir)/Test.Body.BOW\
+$(ValFeatureDir)/Test.NB.pred.softmax
 	$(ExecutableDir)/cxz/mergeFeature 1 \
-	$(ValFeatureDir)/Test.Body.BOW $(DictionarySize) \
+	$(ValFeatureDir)/Test.NB.pred.softmax $(candTagSize) \
 	$@
 
 $(ValFeatureDir)/Train.Merge.feature:\
 $(ExecutableDir)/cxz/mergeFeature\
-$(ValFeatureDir)/Train.Body.BOW
+$(ValFeatureDir)/Train.Body.BOW\
+$(ValFeatureDir)/Train.NB.pred.softmax
 	$(ExecutableDir)/cxz/mergeFeature 1 \
-	$(ValFeatureDir)/Train.Body.BOW $(DictionarySize) \
+	$(ValFeatureDir)/Train.NB.pred.softmax $(candTagSize) \
 	$@
+
+$(ValFeatureDir)/Train.Merge.Scaled.feature:\
+Tools/libSVM/svm-scale $(ValFeatureDir)/Train.Merge.feature
+	Tools/libSVM/svm-scale -l -1 -u 1 -s range $(ValFeatureDir)/Train.Merge.feature > $@
+
+$(ValFeatureDir)/Test.Merge.Scaled.feature:\
+Tools/libSVM/svm-scale $(ValFeatureDir)/Test.Merge.feature
+	Tools/libSVM/svm-scale -r range $(ValFeatureDir)/Test.Merge.feature > $@
 
 $(ValFeatureDir)/Train.libFeature:\
 $(ExecutableDir)/cxz/libSVMDataGen\

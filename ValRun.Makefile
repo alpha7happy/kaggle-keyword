@@ -67,6 +67,7 @@ $(ExecutableDir)/cxz/genSubmit $(GlobalDataDir)/TopTags.dict $(ValDataDir)/Test.
 $(ValRunDir)/%.final:\
 $(ExecutableDir)/cxz/finalbyTop $(ValRunDir)/%.predict
 	$^ 1 $@
+<<<<<<< HEAD
 
 $(ValRunDir)/SVM/0.model:\
 $(ExecutableDir)/cxz/SVM_learn\
@@ -75,8 +76,9 @@ $(ValFeatureDir)/Train.Merge.feature $(ValFeatureDir)/Train.Tags.tagBOW
 
 $(ValRunDir)/SVM.predict:\
 $(ExecutableDir)/cxz/SVM_predict\
-$(ValFeatureDir)/Test.Merge.feature
-	$^ $(ValRunDir)/SVM/ $(NTopTags) $@
+$(ValFeatureDir)/Test.Merge.feature\
+$(ValRunDir)/SVM/0.model
+	$(ExecutableDir)/cxz/SVM_predict $(ValFeatureDir)/Test.Merge.feature $(ValRunDir)/SVM/ $(NTopTags) $@
 
 $(ValRunDir)/libSVM.model:\
 Tools/libSVM/svm-train $(ValFeatureDir)/Train.libFeature.scaled
@@ -94,6 +96,8 @@ Tools/libSVM/svm-predict $(ValFeatureDir)/Test.svmFeature.scaled $(ValRunDir)/li
 Val.SVM.clean:
 	rm -f $(ValRunDir)/SVM.*
 	rm -f -r $(ValRunDir)/SVM
+=======
+>>>>>>> 52331f6... sgd, multiple rf
 
 ValRun.all: ValData.all ValFeature.all
 
