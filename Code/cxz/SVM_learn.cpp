@@ -95,14 +95,17 @@ int main(int argc,char** argv){
 		sprintf(filename,"%s%d.data",svmdir.c_str(),i);
 		FILE* fout=fopen(filename,"w");
 		int cnt=0;
-		for (set<int>::iterator itr=docs.begin();itr!=docs.end()&&cnt<10000;itr++,cnt++)
+		for (set<int>::iterator itr=docs.begin();itr!=docs.end()&&cnt<100000000;itr++,cnt++)
 			fprintf(fout,"%d %s",(tag[*itr].find(i)==tag[*itr].end()?-1:1),data[*itr].c_str());
 		fclose(fout);
 		char cmd[1000];
-		sprintf(cmd,"Tools/SVMlight/svm_learn -c 1 -# 10 %s%d.data %s%d.model > %s%d.log"
+		sprintf(cmd,"Tools/libSVM/svm-scale -l 0 -u 1 -s %s%d.range %s%d.data > %s%d.data.scaled"
 			,svmdir.c_str(),i,svmdir.c_str(),i,svmdir.c_str(),i);
 		system(cmd);
-		sprintf(cmd,"Tools/SVMlight/svm_classify %s%d.data %s%d.model tmp.pred > %s%d.trainlog"
+		sprintf(cmd,"Tools/SVMlight/svm_learn -# 100000 %s%d.data.scaled %s%d.model > %s%d.log"
+			,svmdir.c_str(),i,svmdir.c_str(),i,svmdir.c_str(),i);
+		system(cmd);
+		sprintf(cmd,"Tools/SVMlight/svm_classify %s%d.data.scaled %s%d.model tmp.pred > %s%d.trainlog"
 			,svmdir.c_str(),i,svmdir.c_str(),i,svmdir.c_str(),i);
 		system(cmd);
 		/*sprintf(cmd,"Tools/SVMlight/svm_classify %s %s%d.model %s%d.predict > %s%d.predlog"

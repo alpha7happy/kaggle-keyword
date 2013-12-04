@@ -83,8 +83,9 @@ $(ValFeatureDir)/Train.Merge.feature $(ValFeatureDir)/Train.Tags.tagBOW
 
 $(ValRunDir)/SVM.predict:\
 $(ExecutableDir)/cxz/SVM_predict\
-$(ValFeatureDir)/Test.Merge.feature
-	$^ $(ValRunDir)/SVM/ $(NTopTags) $@
+$(ValFeatureDir)/Test.Merge.feature\
+$(ValRunDir)/SVM/0.model
+	$(ExecutableDir)/cxz/SVM_predict $(ValFeatureDir)/Test.Merge.feature $(ValRunDir)/SVM/ $(NTopTags) $@
 
 $(ValRunDir)/libSVM.model:\
 Tools/libSVM/svm-train $(ValFeatureDir)/Train.libFeature.scaled
